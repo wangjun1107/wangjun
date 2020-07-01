@@ -1,8 +1,8 @@
-package com.wangjun.modules.user.po;
-
-import java.util.Date;
+package com.wangjun.modules.common.po;
 
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class Picture {

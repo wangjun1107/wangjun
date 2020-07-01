@@ -1,9 +1,12 @@
-package com.wangjun.modules.user.po;
-
-import java.util.Date;
+package com.wangjun.modules.shop.po;
 
 import lombok.Data;
 
+import java.util.Date;
+
+/**
+ * @author wangjun
+ */
 @Data
 public class Shop {
     private Long id;
