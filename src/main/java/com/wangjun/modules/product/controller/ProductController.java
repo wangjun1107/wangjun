@@ -14,4 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+
 }

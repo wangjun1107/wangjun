@@ -6,3 +6,7 @@ server:
 spring:
   profiles:
     active: dev
+  security:
+    user:
+      name: admin
+      password: 123

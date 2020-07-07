@@ -1,6 +1,7 @@
 package com.wangjun.modules.user.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wangjun.modules.user.event.CreateUserEvent;
 import com.wangjun.modules.user.mapper.UserMapper;
@@ -40,6 +41,10 @@ public class UserService {
 
     public User userDetail(Long userId) {
         return userMapper.selectById(userId);
+    }
+
+    public User loadUserByUsername(String userName){
+        return userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUserName,userName));
     }
 
     public void update(User user) {
