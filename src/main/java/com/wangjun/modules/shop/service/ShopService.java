@@ -33,7 +33,7 @@ public class ShopService {
     public ResponseShop detail(Long id){
         Shop shop = shopMapper.selectById(id);
         ResponseShop responseShop = new ResponseShop();
-        BeanUtils.copyProperties(responseShop,shop);
+        BeanUtils.copyProperties(shop,responseShop);
         User user = userMapper.selectById(shop.getUserId());
         responseShop.setUserName(user.getName());
         return responseShop;

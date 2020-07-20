@@ -31,8 +31,8 @@ import java.util.Optional;
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
-    @Value("${spring.application.name}")
-    private String applicationName;
+
+    private String applicationName = "api";
 
     @Autowired
     private ObjectProvider<BuildProperties> buildProperties;

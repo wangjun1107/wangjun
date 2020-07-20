@@ -1,5 +1,8 @@
 package com.wangjun.modules.shop.controller.open;
 
+import javax.xml.ws.Response;
+
+import com.wangjun.modules.shop.bo.ResponseShop;
 import com.wangjun.modules.shop.po.Shop;
 import com.wangjun.modules.shop.service.ShopService;
 import io.swagger.annotations.Api;
@@ -34,7 +37,7 @@ public class ShopController {
      */
     @GetMapping("/{id}")
     @ApiOperation("店铺详情")
-    public Shop detail(@PathVariable Long id){
+    public ResponseShop detail(@PathVariable Long id){
         return shopService.detail(id);
     }
 }
