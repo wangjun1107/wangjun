@@ -3,6 +3,7 @@ package com.wangjun.config;
 import com.wangjun.Application;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,8 @@ import java.util.Optional;
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
-
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     @Autowired
     private ObjectProvider<BuildProperties> buildProperties;
@@ -47,7 +49,6 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        String applicationName = "王俊";
         return new ApiInfoBuilder()
                 .title(applicationName)
                 .description("王俊")

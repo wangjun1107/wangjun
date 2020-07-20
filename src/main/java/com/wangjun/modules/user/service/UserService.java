@@ -44,7 +44,7 @@ public class UserService {
     }
 
     public User loadUserByUsername(String userName){
-        return userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getUserName,userName));
+        return userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getPhone,userName));
     }
 
     public void update(User user) {

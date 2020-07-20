@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.wangjun.modules.user.mapper.UserMapper;
+
 import com.wangjun.modules.user.po.User;
 import com.wangjun.modules.user.service.UserService;
 
