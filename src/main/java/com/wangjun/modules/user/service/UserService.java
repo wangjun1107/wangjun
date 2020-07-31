@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <--用户service-->
@@ -65,6 +67,15 @@ public class UserService {
     @TransactionalEventListener
     public void listenerCreateUser(CreateUserEvent event) {
         log.info("监听到创建用户 id: {}, phone: {}", event.getUserId(), event.getPhone());
+    }
+
+    public Set<String> findPermissions(String username) {
+        Set<String> permissions = new HashSet<>();
+        permissions.add("sys:user:view");
+        permissions.add("sys:user:add");
+        permissions.add("sys:user:edit");
+        permissions.add("sys:user:delete");
+        return permissions;
     }
 
 }

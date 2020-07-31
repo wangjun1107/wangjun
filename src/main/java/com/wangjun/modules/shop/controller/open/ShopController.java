@@ -1,19 +1,18 @@
 package com.wangjun.modules.shop.controller.open;
 
-import javax.xml.ws.Response;
-
-import com.wangjun.modules.shop.bo.ResponseShop;
-import com.wangjun.modules.shop.po.Shop;
-import com.wangjun.modules.shop.service.ShopService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.wangjun.modules.shop.bo.ResponseShop;
+import com.wangjun.modules.shop.service.ShopService;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * app店铺
@@ -33,11 +32,12 @@ public class ShopController {
 
     /**
      * 店铺详情
+     *
      * @param id id
      */
     @GetMapping("/{id}")
     @ApiOperation("店铺详情")
-    public ResponseShop detail(@PathVariable Long id){
+    public ResponseShop detail(@PathVariable Long id) {
         return shopService.detail(id);
     }
 }
