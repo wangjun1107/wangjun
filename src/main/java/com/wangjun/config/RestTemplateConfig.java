@@ -7,7 +7,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * <标题>
+ * RestTemplate 配置
  *
  * @author wangjun
  * @date 2020-04-14 16:23
@@ -27,4 +27,5 @@ public class RestTemplateConfig {
         factory.setReadTimeout(5000);
         return factory;
     }
+    // 1 目标 2 路径 3 资源
 }

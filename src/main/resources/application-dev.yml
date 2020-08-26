@@ -7,3 +7,12 @@ spring:
     url: jdbc:mysql://39.108.37.201:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     username: root
     password: WangJun-20190705!
+
+obj:
+  list:
+    - name: 张三
+      age: 20
+    - name: 李四
+      age: 21
+    - name: 王五
+      age: 18
