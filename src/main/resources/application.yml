@@ -1,7 +1,7 @@
 
 
 server:
-  port: 8089
+  port: 1107
 
 spring:
   profiles:
