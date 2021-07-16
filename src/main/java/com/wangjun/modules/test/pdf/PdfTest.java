@@ -1,4 +1,4 @@
-package com.wangjun.modules.test;
+package com.wangjun.modules.test.pdf;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class PdfTest {
 
         // 2.建立一个书写器(Writer)与document对象关联
         PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
-
+        writer.setEncryption(null, null, PdfWriter.ALLOW_PRINTING, PdfWriter.STANDARD_ENCRYPTION_128);
         // 水印 页眉/页脚
         writer.setPageEvent(new MyHeaderFooter());
         // 3.打开文档

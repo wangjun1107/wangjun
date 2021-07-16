@@ -24,7 +24,7 @@ public class ZipTest {
      *			false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
      * @throws RuntimeException 压缩失败会抛出运行时异常
      */
-    public static void toZip(String[] srcDir, String outDir,
+    public static void toZip(List<String> srcDir, String outDir,
                              boolean keepDirStructure) throws Exception {
 
         OutputStream out = new FileOutputStream(new File(outDir));
@@ -116,10 +116,6 @@ public class ZipTest {
     public static void main(String[] args) throws Exception {
 
 
-        String[] srcDir = { "D:/aaaa/bbb",
-                "D:/aaaa/cccc"
-                 };
-        String outDir = "D:/aabb.zip";
-        ZipTest.toZip(srcDir, outDir, true);
+        System.out.println("342426199311072545".substring(6,14));
     }
 }

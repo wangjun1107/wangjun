@@ -1,4 +1,4 @@
-package com.wangjun.modules.test;
+package com.wangjun.modules.test.pdf;
 
 import java.io.BufferedWriter;
 import java.io.File;
