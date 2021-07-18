@@ -17,15 +17,18 @@ public class DateExcel {
     private String state;
     @ExcelProperty("招标名称")
     private String nameOfTender;
+
     @ExcelProperty("招标单位")
     private String company;
     @ExcelProperty("项目编码")
     private String projectCode;
     @ExcelProperty("发布日期")
     private String pubtime;
-    @ExcelProperty("时间开始")
+    @ExcelProperty("公布日期")
     private String lastime;
-    @ExcelProperty("时间结束")
-    private String endime;
+    @ExcelProperty("详情")
+    private String detail = "";
+    @ExcelProperty("url")
+    private String url;
 
 }

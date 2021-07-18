@@ -2,30 +2,36 @@ package com.wangjun.modules.jsoup;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
 
+import com.wangjun.modules.jsoup.mapper.CompanyMapper;
 import org.assertj.core.util.Lists;
-import org.hibernate.validator.constraints.URL;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author wangjun
  */
+@Service
 public class JsoupTest implements Runnable {
+    @Autowired
+    private CompanyMapper companyMapper;
 
 
-    public static void main(String[] args) throws Exception {
-        List<Kw> kw = Lists.newArrayList();
-        kw.add(new Kw("龙泉驿金苹果锦城第一中学附属小学、金苹果天鹅湖幼儿园项目（安装）","会员标签"));
-        // kw.add(new Kw("河南启瀚新能源科技有限公司","认证会员"));
+    public List<DateExcel> getDateExcels() throws Exception {
+
+        List<Kw> kw = companyMapper.selectList(null);
+        // List<Kw> kw = Lists.newArrayList();
+        // kw.add(new Kw("劳务分包补充协议任务中标公示", "会员标签"));
+
+        List<DateExcel> dateExcels = Lists.newArrayList();
 
         for (Kw s : kw) {
+
             Random random = new Random();
             int ran = random.nextInt(10);
             Document document = Jsoup.connect("https://www.cjebuy.com/portal/list.do?chnlcode=result")
@@ -33,37 +39,71 @@ public class JsoupTest implements Runnable {
                     .userAgent(new DateList().ua[ran])
                     .data("kw", s.getName())
                     .post();
+
             Elements tbody = document.getElementsByClass("tbody");
             for (Element element : tbody) {
                 Elements li = element.getElementsByTag("li");
                 for (Element element1 : li) {
-                        // 招标名称
-                        String url = element1.getElementsByTag("a").attr("abs:href");
-                        String name = element1.getElementsByTag("a").text();
-                        // 招标单位
-                        String company = element1.getElementsByClass("company\tfl f14 c6").text();
-                        String project = element1.getElementsByClass("project fl f14 c6").text();
-                        Elements pubtime = element1.getElementsByClass("pubtime fl f14 c9");
+                    DateExcel excel = new DateExcel();
+                    Elements pubtime = element1.getElementsByClass("pubtime fl f14 c9");
+                    Elements elementsByClass = element1.getElementsByClass("lh22");
                     String s1 = null;
                     for (Element e : pubtime) {
                         s1 = e.getElementsByTag("script").toString().substring(26, 45);
                     }
-                        Elements elementsByClass = element1.getElementsByClass("lh22");
-                        System.out.println(name);
-                        System.out.println(url);
-                        System.out.println(company);
-                        System.out.println(project);
-                        System.out.println(s1);
+                    String time = "";
                     for (Element byClass : elementsByClass) {
-                        String lastime = byClass.getElementsByTag("script").toString().substring(26, 36);
+                        String lastime = byClass.getElementsByTag("script").toString().substring(24, 34);
                         System.out.println(lastime);
+                        time = time + "   " + lastime;
+                    }
+                    // 招标名称
+                    String url = element1.getElementsByTag("a").attr("abs:href");
+                    String name = element1.getElementsByTag("a").text();
+                    // 招标单位
+                    String company = element1.getElementsByClass("company\tfl f14 c6").text();
+                    String project = element1.getElementsByClass("project fl f14 c6").text();
+                    String state = element1.getElementsByClass("state-txt").text();
+
+                    excel.setNameOfTender(name);
+                    excel.setProjectCode(project);
+                    excel.setPubtime(s1);
+                    excel.setUrl(url);
+                    excel.setCompany(company);
+                    excel.setCompanyName(s.getName());
+                    excel.setState(state);
+                    excel.setLastime(time);
+                    excel.setTag(s.getTag());
+                    dateExcels.add(excel);
+                }
+            }
+        }
+
+        for (DateExcel d : dateExcels) {
+            Random random = new Random();
+            int ran = random.nextInt(10);
+            Document document = Jsoup.connect(d.getUrl())
+                    .ignoreContentType(true)
+                    .userAgent(new DateList().ua[ran])
+                    .get();
+            Elements tbody = document.getElementsByTag("table");
+            for (Element element : tbody) {
+                Elements tr = element.getElementsByTag("tr");
+                for (Element element1 : tr) {
+                    Elements td1 = element1.getElementsByTag("td");
+                    for (int i = 0; i < td1.size(); i++) {
+                        String t = td1.get(i).text();
+                        if(t != null){
+                            d.setDetail(d.getDetail() + t +" ");
+                        }
+
                     }
                 }
             }
-
         }
-    }
 
+        return dateExcels;
+    }
 
 
     @Override
@@ -90,20 +130,4 @@ public class JsoupTest implements Runnable {
                 "Mozilla/5.0 (Windows NT 6.1; W…) Gecko/20100101 Firefox/60.0"};
     }
 
-}
-
-
-
-@Data
-class Kw{
-    private String name;
-    private String tag;
-
-    public Kw() {
-    }
-
-    public Kw(String name, String tag) {
-        this.name = name;
-        this.tag = tag;
-    }
 }
