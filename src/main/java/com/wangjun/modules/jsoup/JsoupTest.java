@@ -23,10 +23,9 @@ public class JsoupTest implements Runnable {
 
 
     public List<DateExcel> getDateExcels() throws Exception {
-
-        List<Kw> kw = companyMapper.selectList(null);
-        // List<Kw> kw = Lists.newArrayList();
-        // kw.add(new Kw("劳务分包补充协议任务中标公示", "会员标签"));
+        //List<Kw> kw = companyMapper.selectList(null);
+        List<Kw> kw = Lists.newArrayList();
+         kw.add(new Kw("", "会员标签"));
 
         List<DateExcel> dateExcels = Lists.newArrayList();
 
@@ -41,65 +40,66 @@ public class JsoupTest implements Runnable {
                     .post();
 
             Elements tbody = document.getElementsByClass("tbody");
-            for (Element element : tbody) {
-                Elements li = element.getElementsByTag("li");
-                for (Element element1 : li) {
-                    DateExcel excel = new DateExcel();
-                    Elements pubtime = element1.getElementsByClass("pubtime fl f14 c9");
-                    Elements elementsByClass = element1.getElementsByClass("lh22");
-                    String s1 = null;
-                    for (Element e : pubtime) {
-                        s1 = e.getElementsByTag("script").toString().substring(26, 45);
-                    }
-                    String time = "";
-                    for (Element byClass : elementsByClass) {
-                        String lastime = byClass.getElementsByTag("script").toString().substring(24, 34);
-                        System.out.println(lastime);
-                        time = time + "   " + lastime;
-                    }
-                    // 招标名称
-                    String url = element1.getElementsByTag("a").attr("abs:href");
-                    String name = element1.getElementsByTag("a").text();
-                    // 招标单位
-                    String company = element1.getElementsByClass("company\tfl f14 c6").text();
-                    String project = element1.getElementsByClass("project fl f14 c6").text();
-                    String state = element1.getElementsByClass("state-txt").text();
+            return null;
+//            for (Element element : tbody) {
+//                Elements li = element.getElementsByTag("li");
+//                for (Element element1 : li) {
+//                    DateExcel excel = new DateExcel();
+//                    Elements pubtime = element1.getElementsByClass("pubtime fl f14 c9");
+//                    Elements elementsByClass = element1.getElementsByClass("lh22");
+//                    String s1 = null;
+//                    for (Element e : pubtime) {
+//                        s1 = e.getElementsByTag("script").toString().substring(26, 45);
+//                    }
+//                    String time = "";
+//                    for (Element byClass : elementsByClass) {
+//                        String lastime = byClass.getElementsByTag("script").toString().substring(24, 34);
+//                        System.out.println(lastime);
+//                        time = time + "   " + lastime;
+//                    }
+//                    // 招标名称
+//                    String url = element1.getElementsByTag("a").attr("abs:href");
+//                    String name = element1.getElementsByTag("a").text();
+//                    // 招标单位
+//                    String company = element1.getElementsByClass("company\tfl f14 c6").text();
+//                    String project = element1.getElementsByClass("project fl f14 c6").text();
+//                    String state = element1.getElementsByClass("state-txt").text();
+//
+//                    excel.setNameOfTender(name);
+//                    excel.setProjectCode(project);
+//                    excel.setPubtime(s1);
+//                    excel.setUrl(url);
+//                    excel.setCompany(company);
+//                    excel.setCompanyName(s.getName());
+//                    excel.setState(state);
+//                    excel.setLastime(time);
+//                    excel.setTag(s.getTag());
+//                    dateExcels.add(excel);
+//                }
+//            }
+//        }
 
-                    excel.setNameOfTender(name);
-                    excel.setProjectCode(project);
-                    excel.setPubtime(s1);
-                    excel.setUrl(url);
-                    excel.setCompany(company);
-                    excel.setCompanyName(s.getName());
-                    excel.setState(state);
-                    excel.setLastime(time);
-                    excel.setTag(s.getTag());
-                    dateExcels.add(excel);
-                }
-            }
-        }
-
-        for (DateExcel d : dateExcels) {
-            Random random = new Random();
-            int ran = random.nextInt(10);
-            Document document = Jsoup.connect(d.getUrl())
-                    .ignoreContentType(true)
-                    .userAgent(new DateList().ua[ran])
-                    .get();
-            Elements tbody = document.getElementsByTag("table");
-            for (Element element : tbody) {
-                Elements tr = element.getElementsByTag("tr");
-                for (Element element1 : tr) {
-                    Elements td1 = element1.getElementsByTag("td");
-                    for (int i = 0; i < td1.size(); i++) {
-                        String t = td1.get(i).text();
-                        if(t != null){
-                            d.setDetail(d.getDetail() + t +" ");
-                        }
-
-                    }
-                }
-            }
+//        for (DateExcel d : dateExcels) {
+//            Random random = new Random();
+//            int ran = random.nextInt(10);
+//            Document document = Jsoup.connect(d.getUrl())
+//                    .ignoreContentType(true)
+//                    .userAgent(new DateList().ua[ran])
+//                    .get();
+//            Elements tbody = document.getElementsByTag("table");
+//            for (Element element : tbody) {
+//                Elements tr = element.getElementsByTag("tr");
+//                for (Element element1 : tr) {
+//                    Elements td1 = element1.getElementsByTag("td");
+//                    for (int i = 0; i < td1.size(); i++) {
+//                        String t = td1.get(i).text();
+//                        if(t != null){
+//                            d.setDetail(d.getDetail() + t +" ");
+//                        }
+//
+//                    }
+//                }
+//            }
         }
 
         return dateExcels;
