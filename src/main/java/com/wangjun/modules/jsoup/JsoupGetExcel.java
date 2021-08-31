@@ -29,7 +29,7 @@ public class JsoupGetExcel {
 
     @GetMapping("/export")
     public void billAmountExport(HttpServletResponse response) throws Exception {
-        List<DateExcel> dateExcels = jsoupTest.getDateExcels();
+        List<DateExcel> dateExcels = jsoupTest.getDateExcels1();
         //导出
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());

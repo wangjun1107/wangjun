@@ -1,11 +1,11 @@
 
 
 server:
-  port: 1107
+  port: 1108
 
 spring:
   profiles:
     active: dev
   redis:
-    host: 192.168.101.32
+    host: 192.168.101.33
     password: 123456

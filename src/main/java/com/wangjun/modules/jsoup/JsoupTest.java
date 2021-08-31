@@ -21,6 +21,62 @@ public class JsoupTest implements Runnable {
     @Autowired
     private CompanyMapper companyMapper;
 
+    public List<DateExcel> getDateExcels1() throws Exception {
+        //List<Kw> kw = companyMapper.selectList(null);
+        int page = 10;
+
+
+        List<DateExcel> dateExcels = Lists.newArrayList();
+
+        for(int i=1; i <= page; i++) {
+
+            Random random = new Random();
+            int ran = random.nextInt(10);
+            Document document = Jsoup.connect("https://www.cjebuy.com/portal/list.do?chnlcode=tender&objtype=&kw=&chnlvo.pagestr="+i)
+                    .ignoreContentType(true)
+                    .userAgent(new DateList().ua[ran])
+                    .post();
+
+
+            Elements tbody = document.getElementsByClass("tbody");
+            for (Element element : tbody) {
+                Elements li = element.getElementsByTag("li");
+                for (Element element1 : li) {
+                    DateExcel excel = new DateExcel();
+                    Elements pubtime = element1.getElementsByClass("pubtime fl f14 c9");
+
+                    String s1 = null;
+                    for (Element e : pubtime) {
+                        s1 = e.getElementsByTag("script").toString().substring(26, 45);
+                    }
+                    Elements lastime = element1.getElementsByClass("lastime");
+                    String s2 = null;
+                    for (Element e : lastime) {
+                        s2 = e.getElementsByTag("script").toString().substring(26, 43);
+                    }
+                    // 招标名称
+                    String url = element1.getElementsByTag("a").attr("abs:href");
+                    String n = element1.getElementsByClass("title-txt").text();
+                    String name = element1.getElementsByTag("a").text();
+                    // 招标单位
+                    String company = element1.getElementsByClass("company").text();
+                    String project = element1.getElementsByClass("project").text();
+
+
+                    excel.setNameOfTender(n);
+                    excel.setProjectCode(project);
+                    excel.setPubtime(s1);
+                    excel.setUrl(url);
+                    excel.setCompany(company);
+                    excel.setLastime(s2);
+                    dateExcels.add(excel);
+                }
+            }
+        }
+
+        return dateExcels;
+    }
+
 
     public List<DateExcel> getDateExcels() throws Exception {
         //List<Kw> kw = companyMapper.selectList(null);

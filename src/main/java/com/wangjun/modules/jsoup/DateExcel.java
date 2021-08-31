@@ -20,11 +20,11 @@ public class DateExcel {
 
     @ExcelProperty("招标单位")
     private String company;
-    @ExcelProperty("项目编码")
+    @ExcelProperty("项目")
     private String projectCode;
     @ExcelProperty("发布日期")
     private String pubtime;
-    @ExcelProperty("公布日期")
+    @ExcelProperty("截止日期")
     private String lastime;
     @ExcelProperty("详情")
     private String detail = "";
