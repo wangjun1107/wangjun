@@ -1,5 +1,6 @@
 package com.wangjun.modules.jsoup;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -12,10 +13,14 @@ import org.jsoup.select.Elements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author wangjun
  */
+@Slf4j
 @Service
 public class JsoupTest implements Runnable {
     @Autowired
@@ -23,7 +28,7 @@ public class JsoupTest implements Runnable {
 
     public List<DateExcel> getDateExcels1() throws Exception {
         //List<Kw> kw = companyMapper.selectList(null);
-        int page = 10;
+        int page = 1;
 
 
         List<DateExcel> dateExcels = Lists.newArrayList();
@@ -73,8 +78,33 @@ public class JsoupTest implements Runnable {
                 }
             }
         }
-
+        for (DateExcel dateExcel : dateExcels) {
+            String aUrl = dateExcel.getUrl();
+            detail(aUrl);
+        }
         return dateExcels;
+    }
+
+
+    public void detail(String aUrl) throws IOException {
+        Random random = new Random();
+        int ran = random.nextInt(10);
+        Document document = Jsoup.connect("https://www.cjebuy.com/portal/detail.do?docid=364c3ea4105b46bb92731eee38164515&chnlcode=tender&objtype=")
+                .ignoreContentType(true)
+                .userAgent(new DateList().ua[ran])
+                .post();
+
+        Elements tbody = document.getElementsByTag("tbody");
+        for (Element element : tbody) {
+            // 项目头部 项目介绍
+
+           String tdStr = element.getElementsByTag("td").text();
+           log.info(tdStr);
+
+        }
+        String textContent = document.getElementsByClass("doc-content").html();
+        String text = Jsoup.parse(textContent).text();
+        log.info(text);
     }
 
 

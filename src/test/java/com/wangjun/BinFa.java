@@ -1,5 +1,6 @@
 package com.wangjun;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.wangjun.modules.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -36,10 +37,13 @@ public class BinFa {
         for (int i = 0; i<5; i++){
             es.execute(() ->{
                 try {
+                    Thread.sleep(1000);
                     //  cyclicBarrier new 了5个线程 达到了5个线程 同时执行 保证 5个线程是并发
                     cyclicBarrier.await();
-                    Integer orderId = orderService.createOrder("s");
-                    System.out.println(orderId);
+//                    Integer orderId = orderService.createOrder("s");
+//                    System.out.println(orderId);
+                    long id = IdWorker.getId();
+                    System.out.println(id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

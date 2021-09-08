@@ -57,6 +57,8 @@ public class UserService {
     public void save(User user) {
         userMapper.insert(user);
         applicationEventPublisher.publishEvent(new CreateUserEvent(this, user.getId(), user.getPhone()));
+
+        applicationEventPublisher.publishEvent(new CreateUserEvent(this, user.getId(), user.getPhone()));
     }
 
     /**
@@ -67,6 +69,11 @@ public class UserService {
     @TransactionalEventListener
     public void listenerCreateUser(CreateUserEvent event) {
         log.info("监听到创建用户 id: {}, phone: {}", event.getUserId(), event.getPhone());
+    }
+
+    @TransactionalEventListener
+    public void listenerCreateUser1(CreateUserEvent event) {
+        log.info("监听到创建用户1 id: {}, phone: {}", event.getUserId(), event.getPhone());
     }
 
     public Set<String> findPermissions(String username) {
