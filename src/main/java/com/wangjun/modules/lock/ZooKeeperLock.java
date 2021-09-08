@@ -33,19 +33,25 @@ public class ZooKeeperLock implements AutoCloseable, Watcher {
             Stat stat = zooKeeper.exists("/" + businessKey, false);
             if (Objects.isNull(stat)){
                 zooKeeper.create("/"+businessKey,businessKey.getBytes(),
-                        ZooDefs.Ids.OPEN_ACL_UNSAFE, // 开放
-                        CreateMode.PERSISTENT );  // 持久节点
+                        // 开放
+                        ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                        // 持久节点
+                        CreateMode.PERSISTENT );
             }
             // 创建瞬时有序节点  （/XXX/XXX_001）
             zooNode = zooKeeper.create("/" + businessKey + "/" + businessKey + "_",
                     businessKey.getBytes(),
-                    ZooDefs.Ids.OPEN_ACL_UNSAFE, // 开放
-                    CreateMode.EPHEMERAL_SEQUENTIAL);// 瞬时节点
+                    // 开放
+                    ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                    // 瞬时节点
+                    CreateMode.EPHEMERAL_SEQUENTIAL);
 
             // 获取子节点有序列表
             List<String> childrenNodes = zooKeeper.getChildren("/" + businessKey, false);
-            Collections.sort(childrenNodes); // 排序
-            String firstNode = childrenNodes.get(0); // 第一个 最小的节点
+            // 排序
+            Collections.sort(childrenNodes);
+            // 第一个 最小的节点
+            String firstNode = childrenNodes.get(0);
             // 是第一个节点获得锁
             if (zooNode.endsWith(firstNode)){
                 return true;
