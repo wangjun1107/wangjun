@@ -81,7 +81,7 @@ public class ZooKeeperLock implements AutoCloseable, Watcher {
             e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
 
 

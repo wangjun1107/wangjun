@@ -33,10 +33,8 @@ public class RedissonLockController {
             log.info("执行业务流程结束返回");
             return "流程结束拿到了锁";
         }finally {
-            if(rLock.isLocked() && rLock.isHeldByCurrentThread()) {
-                log.info("释放锁");
-                rLock.unlock();
-            }
+           log.info("释放锁");
+           rLock.unlock();
         }
     }
 
