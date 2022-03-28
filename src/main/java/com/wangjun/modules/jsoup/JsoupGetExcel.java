@@ -1,5 +1,6 @@
 package com.wangjun.modules.jsoup;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -39,5 +40,10 @@ public class JsoupGetExcel {
                 .sheet("0000")
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
                 .doWrite(dateExcels);
+    }
+
+    @GetMapping("/export-detail")
+    public void test(String url) throws IOException {
+        jsoupTest.detail(url);
     }
 }

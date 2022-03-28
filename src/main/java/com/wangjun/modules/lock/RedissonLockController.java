@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * <标题>
@@ -22,17 +21,6 @@ public class RedissonLockController {
     @Autowired
     private RedissonClient redissonClient;
 
-    /**
-     * 1 互斥性  满足
-     * 2 死锁  lock
-     * 3. 阻塞
-     * 4. 可重入
-     * 5.
-     * @return
-     * @throws InterruptedException
-     */
-
-
 
     @GetMapping("/redisson-lock")
     public String testRedissonLock() throws InterruptedException {
@@ -45,10 +33,8 @@ public class RedissonLockController {
             log.info("执行业务流程结束返回");
             return "流程结束拿到了锁";
         }finally {
-            if(rLock.isLocked() && rLock.isHeldByCurrentThread()) {
-                log.info("释放锁");
-                rLock.unlock();
-            }
+           log.info("释放锁");
+           rLock.unlock();
         }
     }
 
@@ -77,30 +63,4 @@ public class RedissonLockController {
         return "流程结束拿到了锁";
     }
 
-    @GetMapping("/redisson-try-lock1")
-    public String testRedissonTryLock1() {
-        boolean lock = false;
-        log.info("进入方法体");
-        RLock rLock = redissonClient.getLock("order-submit-tryLock");
-        try {
-            lock = rLock.tryLock(3,5,TimeUnit.SECONDS);
-            if(lock) {
-                log.info("加锁成功-执行业务流程");
-                Thread.sleep(10000);
-
-            }else {
-                log.info("加锁失败！");
-                return "加锁失败";
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }finally {
-            log.info("执行业务流程结束返回 释放锁");
-            if(lock) {
-                log.info("释放锁");
-                rLock.unlock();
-            }
-        }
-        return "流程结束拿到了锁";
-    }
 }

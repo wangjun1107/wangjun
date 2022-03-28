@@ -1,5 +1,6 @@
 package com.wangjun;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.wangjun.modules.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -20,7 +21,7 @@ import java.util.concurrent.*;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BinFa {
+public class ConcurrentTest {
 
     @Autowired
     private OrderService orderService;
@@ -29,17 +30,20 @@ public class BinFa {
     public void concurrentOrder() throws InterruptedException {
 
         // 创建一个闭锁 5个线程
-        CountDownLatch cdl = new CountDownLatch(5);
-        CyclicBarrier cyclicBarrier = new CyclicBarrier(5);
+        CountDownLatch cdl = new CountDownLatch(100);
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(100);
 
-        ExecutorService es = Executors.newFixedThreadPool(5);
-        for (int i = 0; i<5; i++){
+        ExecutorService es = Executors.newFixedThreadPool(100);
+        for (int i = 0; i<100; i++){
             es.execute(() ->{
                 try {
+                    //Thread.sleep(10);
                     //  cyclicBarrier new 了5个线程 达到了5个线程 同时执行 保证 5个线程是并发
                     cyclicBarrier.await();
-                    Integer orderId = orderService.createOrder("s");
-                    System.out.println(orderId);
+                   Integer orderId = orderService.createOrder("s");
+                    //System.out.println(orderId);
+                    long id = IdWorker.getId();
+                    System.out.println(id);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

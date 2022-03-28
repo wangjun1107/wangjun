@@ -7,5 +7,5 @@ spring:
   profiles:
     active: dev
   redis:
-    host: 192.168.101.33
-    password: 123456
+    host: 127.0.0.1
+
