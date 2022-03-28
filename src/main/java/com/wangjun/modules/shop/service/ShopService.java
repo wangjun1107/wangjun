@@ -36,6 +36,7 @@ public class ShopService {
         BeanUtils.copyProperties(shop,responseShop);
         User user = userMapper.selectById(shop.getUserId());
         responseShop.setUserName(user.getName());
+
         return responseShop;
     }
 }
